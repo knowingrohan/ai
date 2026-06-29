@@ -125,21 +125,27 @@ Add a release checklist for our npm package.
 
 ## Repository Layout
 
-This is a monorepo of agent skills. Each skill lives in its own directory under `skills/`.
+This is a monorepo of agent skills, hooks, and plugins. All contributions are agent-agnostic and follow a shared convention.
 
 ```text
 skills/
-  refine-prompt/
+  refine-prompt/       ← turn rough prompts into structured agent prompts
     SKILL.md
     agents/
       openai.yaml
-  context-handoff/
+  context-handoff/     ← generate structured hand-off notes between sessions
     SKILL.md
+
+hooks/                 ← PreToolUse / PostToolUse / Stop automation scripts
+  README.md
+
+plugins/               ← MCP servers and agent runtime extensions
+  README.md
 ```
 
-### Adding a New Skill
+### Adding a Skill
 
-1. Create a directory: `skills/<skill-name>/`
+1. Create `skills/<skill-name>/`
 2. Add `SKILL.md` with valid YAML frontmatter — `name` must match the directory name:
    ```yaml
    ---
@@ -151,7 +157,17 @@ skills/
 3. Optionally add `agents/openai.yaml` for OpenAI-compatible UI metadata.
 4. Add install instructions and usage examples to the root `README.md`.
 
-Skills in this repo follow the shared `SKILL.md` format and are agent-agnostic by design.
+### Adding a Hook
+
+1. Create `hooks/<hook-name>/`
+2. Add `hook.json` (matcher, command, description) and a `README.md`
+3. See `hooks/README.md` for the full convention.
+
+### Adding a Plugin
+
+1. Create `plugins/<plugin-name>/`
+2. Add a `README.md` with install steps and a list of exposed tools or capabilities.
+3. See `plugins/README.md` for the full convention.
 
 ## Contributing
 
