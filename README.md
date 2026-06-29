@@ -22,7 +22,7 @@ All skills follow the shared `SKILL.md` format and work with any agent that read
 
 ### refine-prompt
 
-[![skills.sh](https://skills.sh/b/knowingrohan/refine-prompt)](https://skills.sh/knowingrohan/refine-prompt)
+[![skills.sh](https://skills.sh/b/knowingrohan/ai)](https://skills.sh/knowingrohan/ai)
 
 Turns a rough user request into a clear, copy-paste-ready prompt for a coding or reasoning agent.
 
