@@ -1,18 +1,50 @@
-# Refine Prompt
+# knowingrohan/ai
+
+A monorepo of agent-agnostic skills, hooks, and plugins for Claude Code, Codex, Gemini CLI, Devin, and more.
+
+All skills follow the shared `SKILL.md` format and work with any agent that reads skill files.
+
+## Table of Contents
+
+- [Skills](#skills)
+  - [refine-prompt](#refine-prompt)
+  - [context-handoff](#context-handoff)
+- [Agent Compatibility](#agent-compatibility)
+- [Install](#install)
+- [Everyday Workflow](#everyday-workflow)
+- [Repository Layout](#repository-layout)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
+
+## Skills
+
+### refine-prompt
 
 [![skills.sh](https://skills.sh/b/knowingrohan/refine-prompt)](https://skills.sh/knowingrohan/refine-prompt)
 
-`refine-prompt` is an agent skill for turning rough requests into clear, copy-paste-ready prompts for coding and reasoning agents.
+Turns a rough user request into a clear, copy-paste-ready prompt for a coding or reasoning agent.
 
-It helps an agent preserve the user's intent, inspect safe local context, identify relevant tools or skills, and return a structured prompt with requirements, execution guidance, output format, and verification criteria.
+Rough prompts produce rough results. When you fire a vague request at an agent, it makes assumptions, skips verification steps, and misses context sitting right in your repo. `refine-prompt` adds a role, concrete requirements, suggested skills, and acceptance criteria — before any code is written.
 
-## Why refine-prompt?
+**Invoke:** `/refine-prompt` (Claude Code) · `skill: refine-prompt` (other agents)
 
-Rough prompts produce rough results. When you fire a vague request at a coding agent, it makes assumptions, skips verification steps, and misses context sitting right in your repo. `refine-prompt` turns that rough input into a structured prompt — with a clear role, concrete requirements, suggested skills, and acceptance criteria — before any code is written.
+---
 
-## Supported Agents
+### context-handoff
 
-This skill follows the shared `SKILL.md` format and is designed to be agent-agnostic. It works with any agent or CLI that reads `SKILL.md` files:
+Generates a structured hand-off note before a session ends or context switches to a different agent or collaborator.
+
+Captures what was done, what is still pending, key decisions made, and files changed — then produces a ready-to-paste resume prompt so the next session starts without cold-start friction.
+
+**Invoke:** `/context-handoff` (Claude Code) · `skill: context-handoff` (other agents)
+
+---
+
+## Agent Compatibility
+
+Both skills follow the shared `SKILL.md` format and work with any agent that reads skill files:
 
 | Agent | Reads From |
 |---|---|
@@ -24,108 +56,89 @@ This skill follows the shared `SKILL.md` format and is designed to be agent-agno
 | Devin | Uploaded skill files or project docs |
 | Anti Gravity / Pi | `.pi/skills/` or equivalent config dir |
 
-The repository also includes `skills/refine-prompt/agents/openai.yaml` with lightweight UI metadata for OpenAI-compatible skill listings.
-
 ## Install
 
-Install for the current project:
+Install a specific skill for the current project:
 
 ```sh
-npx skills add knowingrohan/refine-prompt --skill refine-prompt
+npx skills add knowingrohan/ai --skill refine-prompt
+npx skills add knowingrohan/ai --skill context-handoff
 ```
 
 Install globally for all supported local projects:
 
 ```sh
-npx skills add knowingrohan/refine-prompt --skill refine-prompt -g
+npx skills add knowingrohan/ai --skill refine-prompt -g
+npx skills add knowingrohan/ai --skill context-handoff -g
 ```
 
-List available skills in this repository:
+List all available skills in this repository:
 
 ```sh
-npx skills add knowingrohan/refine-prompt --list
+npx skills add knowingrohan/ai --list
 ```
 
 ## Everyday Workflow
 
-These examples show how `refine-prompt` fits into real development sessions across different agents and project types.
+### refine-prompt
 
-### Claude Code
-
-Invoke directly when you have a rough idea and want a structured prompt before acting:
-
-```text
-/refine-prompt
-Fix the layout issue on the footer — the icons look misaligned on mobile.
-```
-
-Use it before a complex feature to prevent scope creep:
+**Claude Code** — invoke before a complex task to prevent scope creep:
 
 ```text
 /refine-prompt
 Add a Supabase migration for the new expense-sharing feature in the Flutter app.
 ```
 
-Use it to structure a client deliverable before writing a spec:
+**Claude Code** — use it to structure a client deliverable before writing a spec:
 
 ```text
 /refine-prompt
 Write a quotation document for a three-tier EdTech platform — frontend, backend, mobile.
 ```
 
-### Codex
-
-Pass the skill file directly and describe your task:
+**Codex** — pass the skill file directly:
 
 ```text
 Use the refine-prompt skill. I need to add dark mode support to the Next.js site deployed on Vercel.
 ```
 
-### Gemini CLI
-
-Activate the skill, then describe your task:
+**Gemini CLI** — activate then describe your task:
 
 ```text
 activate_skill refine-prompt
 
-I want to redesign the navbar for the KLAOA site. It needs a new logo placement and a mobile hamburger menu.
+I want to redesign the navbar. It needs a new logo placement and a mobile hamburger menu.
 ```
 
-### Devin / Cursor / Windsurf
-
-Reference the skill in your task description:
+**Devin / Cursor / Windsurf:**
 
 ```text
 Using the refine-prompt skill from .agents/skills/, refine this into a full implementation prompt:
-Scaffold a new residential society website — community board, event calendar, resident directory.
+Scaffold a residential society website — community board, event calendar, resident directory.
 ```
 
-### Anti Gravity / Pi
+---
+
+### context-handoff
+
+**Claude Code** — run before ending a long session:
 
 ```text
-skill: refine-prompt
-task: Add real-time presence indicators to the Flutter chat screen using Supabase Realtime.
+/context-handoff
 ```
 
-## Usage Examples
-
-Ask your agent to use the skill when a prompt needs structure:
+**Claude Code** — run before switching from Claude to Codex mid-task:
 
 ```text
-Use the refine-prompt skill to turn this rough task into a strong prompt for a coding agent:
-Fix the flaky auth tests and make sure CI passes.
+/context-handoff
+I'm switching to Codex to finish the Flutter auth flow. Generate a hand-off note.
 ```
 
-Use it with project context:
+**Any agent** — paste the generated resume prompt into the next session's first message to resume without cold-start friction.
 
-```text
-Use refine-prompt. Inspect the repo docs and local agent instructions first, then rewrite this into a complete implementation prompt:
-Add a release checklist for our npm package.
-```
+---
 
 ## Repository Layout
-
-This is a monorepo of agent skills, hooks, and plugins. All contributions are agent-agnostic and follow a shared convention.
 
 ```text
 skills/
@@ -155,12 +168,12 @@ plugins/               ← MCP servers and agent runtime extensions
    ---
    ```
 3. Optionally add `agents/openai.yaml` for OpenAI-compatible UI metadata.
-4. Add install instructions and usage examples to the root `README.md`.
+4. Add a section for the skill in this README.
 
 ### Adding a Hook
 
 1. Create `hooks/<hook-name>/`
-2. Add `hook.json` (matcher, command, description) and a `README.md`
+2. Add `hook.json` (matcher, command, description) and a `README.md`.
 3. See `hooks/README.md` for the full convention.
 
 ### Adding a Plugin
@@ -171,14 +184,13 @@ plugins/               ← MCP servers and agent runtime extensions
 
 ## Contributing
 
-Issues and pull requests are welcome. Keep the skill concise, agent-agnostic, and safe for public use. Avoid adding project-specific assumptions, secrets, private paths, or instructions that require unnecessary access to user data.
+Issues and pull requests are welcome. Keep skills concise, agent-agnostic, and safe for public use. Avoid project-specific assumptions, secrets, private paths, or instructions that require unnecessary access to user data.
 
 Before opening a pull request, verify that:
 
-- `skills/refine-prompt/SKILL.md` has valid YAML frontmatter.
-- The frontmatter `name` is `refine-prompt`.
-- The skill directory name matches the skill name.
-- The skill remains useful across agents and repositories.
+- `SKILL.md` has valid YAML frontmatter.
+- The frontmatter `name` matches the directory name.
+- The skill, hook, or plugin works across agents and repositories.
 
 ## License
 
