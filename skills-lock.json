@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "context-handoff": {
+      "source": "knowingrohan/ai",
+      "sourceType": "github",
+      "skillPath": "skills/context-handoff/SKILL.md",
+      "computedHash": "88a00222fd34fff1a6d087ee2c47f42f88673ecd4f706085a44c8e791d44e27b"
+    },
+    "refine-prompt": {
+      "source": "knowingrohan/ai",
+      "sourceType": "github",
+      "skillPath": "skills/refine-prompt/SKILL.md",
+      "computedHash": "7025d3b4cbb1699c10f46c906891bbde3f02d31d62865f18090ae00a4271857e"
+    }
+  }
+}
