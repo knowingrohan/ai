@@ -125,13 +125,33 @@ Add a release checklist for our npm package.
 
 ## Repository Layout
 
+This is a monorepo of agent skills. Each skill lives in its own directory under `skills/`.
+
 ```text
 skills/
   refine-prompt/
     SKILL.md
     agents/
       openai.yaml
+  context-handoff/
+    SKILL.md
 ```
+
+### Adding a New Skill
+
+1. Create a directory: `skills/<skill-name>/`
+2. Add `SKILL.md` with valid YAML frontmatter — `name` must match the directory name:
+   ```yaml
+   ---
+   name: skill-name
+   description: One sentence description for agent auto-discovery.
+   license: MIT
+   ---
+   ```
+3. Optionally add `agents/openai.yaml` for OpenAI-compatible UI metadata.
+4. Add install instructions and usage examples to the root `README.md`.
+
+Skills in this repo follow the shared `SKILL.md` format and are agent-agnostic by design.
 
 ## Contributing
 
