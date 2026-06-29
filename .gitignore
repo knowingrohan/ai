@@ -9,3 +9,6 @@ coverage/
 .gstack/
 .agents/
 .claude/
+
+# skills CLI lock file (byproduct of `npx skills add`; this repo is the source, not a consumer)
+skills-lock.json

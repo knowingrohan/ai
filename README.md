@@ -22,7 +22,7 @@ All skills follow the shared `SKILL.md` format and work with any agent that read
 
 ### refine-prompt
 
-[![skills.sh](https://skills.sh/b/knowingrohan/ai)](https://skills.sh/knowingrohan/ai)
+[![skills.sh](https://skills.sh/b/knowingrohan/ai)](https://skills.sh/knowingrohan/ai/refine-prompt)
 
 Turns a rough user request into a clear, copy-paste-ready prompt for a coding or reasoning agent.
 
@@ -33,6 +33,8 @@ Rough prompts produce rough results. When you fire a vague request at an agent, 
 ---
 
 ### context-handoff
+
+[![skills.sh](https://skills.sh/b/knowingrohan/ai)](https://skills.sh/knowingrohan/ai/context-handoff)
 
 Generates a structured hand-off note before a session ends or context switches to a different agent or collaborator.
 
