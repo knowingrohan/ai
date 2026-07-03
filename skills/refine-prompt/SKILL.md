@@ -80,10 +80,10 @@ After presenting the refined prompt in an interactive session, run these steps i
    - Linux (Wayland): `wl-copy < file`; (X11): `xclip -selection clipboard < file`
    - Windows / WSL: `clip.exe < file`
 2. Confirm the copy with one line: `Prompt copied to clipboard.` If no clipboard tool or shell access is available, say `Could not copy to clipboard — copy the block above manually.` and continue.
-3. Ask the user how to proceed. Use the agent's native question tool when one exists (for example `AskUserQuestion` in Claude Code); otherwise ask as plain text. Offer exactly these choices:
+3. Ask the user how to proceed. Use the agent's native question tool when one exists (for example `AskUserQuestion` in Claude Code); otherwise ask as plain text. Present all three of these as explicit labeled options — do not fold the third into the tool's automatic free-form fallback:
    - **Execute** — run the refined prompt now, in this session, as if the user had pasted it.
    - **Modify** — the user edits the copied prompt outside the session and pastes the final version back; execute the pasted prompt verbatim instead of the original.
-   - **Something else** — follow whatever instruction the user gives.
+   - **Something else** — the user states what they want next; follow that instruction.
 4. Do not execute anything until the user has answered.
 
 ## Quality Bar
