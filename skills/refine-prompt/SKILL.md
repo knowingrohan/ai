@@ -27,11 +27,11 @@ If context cannot be inspected, say that the prompt was refined from the provide
 
 ## Prompt Refinement Workflow
 
-1. Identify the user's real task from the raw prompt.
+1. Identify the user's real task from the raw prompt — the larger goal, who it is for, and what the output enables, not just the literal ask.
 2. Select the best role for the agent, such as `Senior Software Engineer`, `QA Engineer`, `Product Manager`, `Technical Writer`, `UX Designer`, `Security Reviewer`, or `Data Analyst`.
 3. Extract constraints, success criteria, expected output format, files, technologies, risks, and required verification steps.
 4. Identify useful local or global skills, commands, tools, memories, or project docs. Mark these as suggestions, not requirements, unless the user explicitly requires them.
-5. Write a refined prompt that another agent can paste directly into a CLI or chat.
+5. Fill the prompt anatomy below. The refined prompt is a session contract that sets full context and working style for a fresh session — not a step checklist.
 6. Preserve uncertainty. Use phrases like "inspect and confirm" when the raw prompt lacks details.
 
 ## Output Format
@@ -42,33 +42,55 @@ After the fenced block, include a concise optional note only if context was unav
 
 Do not include long explanations about prompt engineering.
 
+### Prompt Anatomy
+
+The block is built from these sections, in this order. Each section is one tight paragraph or a short bullet run.
+
+| Section | Job | When to include |
+| --- | --- | --- |
+| Role | The expert the agent should be | Always |
+| Task | The goal + the why, not the steps | Always |
+| Context | What the project knows, the chat forgets | Always |
+| Skill | Saved once, loaded in one word | When a relevant skill, command, or quality reference exists |
+| Effort | Don't let it undersell itself | When the problem is non-routine |
+| Act | Stop it from overplanning | Always |
+| Scope | The simplest thing that works | Always |
+| Delegate | Subagents do the boring work | When independent, parallelizable subtasks exist |
+| Evidence | Audit before reporting | When the output makes claims that can be verified in-session |
+| Memory | Promote lessons into the project | When working inside a persistent project |
+| Checkpoint | Pause only when it must | Always |
+| Report | The TLDR comes first | Always |
+
+Sections marked Always appear in every refined prompt, even for small tasks. Omit a situational section entirely when it does not apply — do not include it with filler.
+
 Use this structure inside the copy-paste block:
 
 ```text
 Role: <specific expert role>
 
-Task: <clear task distilled from the raw prompt>
+Task: I'm working on <larger goal> for <who it's for>. They need <what the output enables>. With that in mind: <the specific task>.
+- <concrete requirement from the raw prompt>
+- <inferred requirement that is safe and useful>
 
-Project Context To Use:
-- <specific local files, memories, docs, tools, or "Inspect available project context first">
+Context: Use these first — <specific local files, memories, docs, tools, or "inspect available project context first">. If something you need is not listed, inspect the project before acting. Don't guess.
 
-Suggested Skills / Tools:
-- <skill/tool suggestion and why it may help>
+Skill: /<skill-name> — apply it fully. <one line on why it fits, or a pasted reference of what "good" looks like>
 
-Requirements:
-- <concrete requirements from the raw prompt>
-- <inferred requirements that are safe and useful>
+Effort: This is a <routine | hard | hardest-unsolved> problem. Don't undersell yourself — scope it like it's at the top of your range.
 
-Execution Guidance:
-- <step-by-step guidance for the agent>
-- <how to handle ambiguities>
-- <how to avoid unsafe assumptions>
+Act: When you have enough information to act, act. Don't re-derive what's established, re-litigate decisions already made, or survey options you won't pursue. Weighing a choice? Give a recommendation.
 
-Output Format:
-- <exact format the user should receive>
+Scope: Do the simplest thing that works well. No extra features, refactors, or abstractions. No error handling for scenarios that can't happen. <If the raw prompt describes a problem rather than requesting a change: "The deliverable is your assessment — do not apply fixes until asked.">
 
-Verification:
-- <tests, checks, review steps, or acceptance criteria>
+Delegate: Split independent subtasks across subagents and keep working. Verify the result against this prompt with a fresh-context check before finishing.
+
+Evidence: Before reporting, audit every claim against a real result from this session — a command output, a file, a test run. Unverified? Say so.
+
+Memory: If you learn something durable about this project or user that will matter next time, state it at the end so it can be promoted into the project's instructions.
+
+Checkpoint: Pause only for destructive actions, real scope changes, or input only the user can provide. Otherwise proceed end to end. Never end your turn on a promise.
+
+Report: Open with the outcome — the TLDR the user would ask for. <exact deliverable format, if the user specified one.> Complete sentences, no arrow chains, no shorthand the user never saw. Clear beats short.
 ```
 
 ## Post-Refinement Flow
@@ -98,18 +120,19 @@ The refined prompt must be:
 
 ## Skill Suggestions
 
-When suggesting skills, include:
+When filling the `Skill:` section, draw from:
 
 - Skills already visible in the current agent context.
 - Project-local skills discovered in directories such as `.agents/skills`, `.codex/skills`, `.claude/skills`, or similar.
 - Global skills only when known or discoverable.
 
-If no relevant skill is found, include:
+If no relevant skill is found but skill discovery matters for the task, use:
 
 ```text
-Suggested Skills / Tools:
-- None found from available context. Inspect project-local and global skills before starting.
+Skill: None found from available context — inspect project-local and global skills before starting. Here's what "good" looks like: <short quality reference>.
 ```
+
+Otherwise omit the `Skill:` section.
 
 ## Handling Weak Raw Prompts
 

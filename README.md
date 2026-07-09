@@ -26,7 +26,7 @@ All skills follow the shared `SKILL.md` format and work with any agent that read
 
 Turns a rough user request into a clear, copy-paste-ready prompt for a coding or reasoning agent.
 
-Rough prompts produce rough results. When you fire a vague request at an agent, it makes assumptions, skips verification steps, and misses context sitting right in your repo. `refine-prompt` adds a role, concrete requirements, suggested skills, and acceptance criteria — before any code is written.
+Rough prompts produce rough results. When you fire a vague request at an agent, it makes assumptions, skips verification steps, and misses context sitting right in your repo. `refine-prompt` restructures the request into a full session contract — Task, Context, Skill, Effort, Act, Scope, Delegate, Evidence, Memory, Checkpoint, and Report — so a fresh session knows the goal, the working style, and when to pause, before any code is written.
 
 **Invoke:** `/refine-prompt` (Claude Code) · `skill: refine-prompt` (other agents)
 
